@@ -7,15 +7,15 @@ export class SQLiteNoteRepository implements NoteRepository {
 
     async save(note: Note): Promise<Note> {
         this.db.query(
-            "INSERT INTO notes (id, title, content, tags, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
-            [
-                note.id,
-                note.title,
-                note.content,
-                JSON.stringify(note.tags),
-                note.createdAt.toISOString(),
-                note.updatedAt.toISOString()
-            ]
+          "INSERT INTO notes (id, title, content, tags, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+          [
+            note.id,
+            note.title,
+            note.content,
+            JSON.stringify(note.tags),
+            note.createdAt.toISOString(),
+            note.updatedAt.toISOString()
+          ]
         );
         return note;
     }

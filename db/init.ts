@@ -1,4 +1,3 @@
-// db/init.ts
 import { DB } from "https://deno.land/x/sqlite/mod.ts";
 
 const db = new DB("notes.db"); // Or get this from config
@@ -14,5 +13,5 @@ export function initializeDatabase() {
             updated_at DATETIME NOT NULL
         )
     `);
-    db.close(); // Important to close after initialization
+    db.close();
 }
