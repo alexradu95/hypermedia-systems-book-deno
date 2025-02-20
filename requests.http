@@ -1,0 +1,46 @@
+### Variables
+@baseUrl = http://localhost:3000/api
+@noteId = replace_with_note_id
+
+### Create a new note
+POST {{baseUrl}}/notes
+Content-Type: application/json
+
+{
+  "title": "My First Note",
+  "content": "This is the content of my first note",
+  "tags": ["personal", "thoughts"]
+}
+
+### Get all notes
+GET {{baseUrl}}/notes
+
+### Update a note
+PUT {{baseUrl}}/notes/{{noteId}}
+Content-Type: application/json
+
+{
+  "title": "Updated Note Title",
+  "content": "This is the updated content",
+  "tags": ["personal", "updated"]
+}
+
+### Example with real data - Create a Todo note
+POST {{baseUrl}}/notes
+Content-Type: application/json
+
+{
+  "title": "Shopping List",
+  "content": "1. Milk\n2. Bread\n3. Eggs",
+  "tags": ["shopping", "todo"]
+}
+
+### Example with real data - Create a Meeting note
+POST {{baseUrl}}/notes
+Content-Type: application/json
+
+{
+  "title": "Team Meeting Notes",
+  "content": "- Discussed project timeline\n- Assigned tasks\n- Next meeting on Friday",
+  "tags": ["work", "meetings"]
+}
