@@ -1,5 +1,24 @@
+interface Contact {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+}
+
 class Controller {
-    private contactsList = ["John Doe", "Jane Doe", "Alice", "Bob", "Michael", "Sarah", "Tom", "Jerry", "Harry", "Ron"];
+    private contactsList: Contact[] = [
+        { id: 1, firstName: "John", lastName: "Doe", email: "john.doe@example.com", phone: "+1234567890" },
+        { id: 2, firstName: "Jane", lastName: "Doe", email: "jane.doe@example.com", phone: "+1234567891" },
+        { id: 3, firstName: "Alice", lastName: "Smith", email: "alice.smith@example.com", phone: "+1234567892" },
+        { id: 4, firstName: "Bob", lastName: "Johnson", email: "bob.johnson@example.com", phone: "+1234567893" },
+        { id: 5, firstName: "Michael", lastName: "Brown", email: "michael.brown@example.com", phone: "+1234567894" },
+        { id: 6, firstName: "Sarah", lastName: "Lee", email: "sarah.lee@example.com", phone: "+1234567895" },
+        { id: 7, firstName: "Tom", lastName: "Davis", email: "tom.davis@example.com", phone: "+1234567896" },
+        { id: 8, firstName: "Jerry", lastName: "Miller", email: "jerry.miller@example.com", phone: "+1234567897" },
+        { id: 9, firstName: "Harry", lastName: "Wilson", email: "harry.wilson@example.com", phone: "+1234567898" },
+        { id: 10, firstName: "Ron", lastName: "Anderson", email: "ron.anderson@example.com", phone: "+1234567899" }
+    ];
 
     private layout(content: string): string {
         return `<!DOCTYPE html>
@@ -49,13 +68,33 @@ class Controller {
         </html>`;
     }
 
-    private contactsTemplate(contacts: string[], query: string): string {
+    private contactsTemplate(contacts: Contact[], query: string): string {
         const contactsList = contacts.length === 0
             ? '<p>No contacts found.</p>'
-            : `<ul>
-                ${contacts.map(contact => `<li>${this.escapeHtml(contact)}</li>`).join('')}
-               </ul>`;
-
+            : `<table role="grid">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Edit</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${contacts.map(contact => `
+                        <tr>
+                            <td>${this.escapeHtml(contact.firstName)}</td>
+                            <td>${this.escapeHtml(contact.lastName)}</td>
+                            <td>${this.escapeHtml(contact.email)}</td>
+                            <td>${this.escapeHtml(contact.phone)}</td>
+                            <td><a href="/contacts/${contact.id}/edit">Edit</td>
+                            <td><a href="/contacts/${contact.id}/">View</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+               </table>`;
         return `<form method="GET" action="/contacts">
             <div class="grid">
                 <input 
@@ -95,7 +134,10 @@ class Controller {
                 const query = params.get("q") || "";
                 const filteredContacts = query
                     ? this.contactsList.filter(contact =>
-                        contact.toLowerCase().includes(query.toLowerCase())
+                        contact.firstName.toLowerCase().includes(query.toLowerCase()) ||
+                        contact.lastName.toLowerCase().includes(query.toLowerCase()) ||
+                        contact.email.toLowerCase().includes(query.toLowerCase()) ||
+                        contact.phone.includes(query)
                     )
                     : this.contactsList;
 
