@@ -3,6 +3,7 @@ import { ContactService } from "./services/contact-service.ts";
 import { BaseLayout } from "./views/layouts/base-layout.ts";
 import { ContactsView } from "./views/contacts/contacts-view.ts";
 import { ContactForm } from "./views/contacts/contact-form.ts";
+import { ContactDetails } from "./views/contacts/contact-details.ts";
 
 class ContactController {
     private contactService: ContactService;
@@ -51,7 +52,54 @@ class ContactController {
                 });
             }
 
-            // Return 404 for unhandled routes
+            // View a single contact
+            const viewContactMatch = url.pathname.match(/^\/contacts\/(\d+)$/);
+            if (viewContactMatch) {
+                const contactId = parseInt(viewContactMatch[1]);
+                const contact = this.contactService.getContact(contactId);
+                
+                if (!contact) {
+                    return new Response("Contact not found", { status: 404 });
+                }
+
+                const content = ContactDetails.render(contact);
+                return new Response(BaseLayout.render(content), {
+                    headers: { "Content-Type": "text/html; charset=utf-8" }
+                });
+            }
+
+            // Edit contact form
+            const editContactMatch = url.pathname.match(/^\/contacts\/(\d+)\/edit$/);
+            if (editContactMatch) {
+                const contactId = parseInt(editContactMatch[1]);
+                const contact = this.contactService.getContact(contactId);
+                
+                if (!contact) {
+                    return new Response("Contact not found", { status: 404 });
+                }
+
+                if (req.method === "GET") {
+                    const content = ContactForm.render(contact);
+                    return new Response(BaseLayout.render(content), {
+                        headers: { "Content-Type": "text/html; charset=utf-8" }
+                    });
+                } else if (req.method === "POST") {
+                    const formData = await req.formData();
+                    const updatedContact = {
+                        ...contact,
+                        firstName: formData.get("firstName") as string,
+                        lastName: formData.get("lastName") as string,
+                        email: formData.get("email") as string,
+                        phone: formData.get("phone") as string
+                    };
+                    
+                    this.contactService.updateContact(contactId, updatedContact);
+                    const redirectUrl = new URL(`/contacts/${contactId}`, url);
+                    return Response.redirect(redirectUrl.toString(), 302);
+                }
+            }
+
+            // Return 404 for unmatched routes
             return new Response("Not Found", { status: 404 });
         } catch (error) {
             console.error("Error handling request:", error);

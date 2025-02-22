@@ -42,4 +42,16 @@ export class ContactService {
         this.contacts.push(newContact);
         return newContact;
     }
+
+    getContact(id: number): Contact | undefined {
+        return this.contacts.find(contact => contact.id === id);
+    }
+
+    updateContact(id: number, updatedContact: Contact): Contact | undefined {
+        const index = this.contacts.findIndex(contact => contact.id === id);
+        if (index === -1) return undefined;
+        
+        this.contacts[index] = updatedContact;
+        return updatedContact;
+    }
 }
