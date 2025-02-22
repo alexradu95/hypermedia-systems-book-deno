@@ -1,6 +1,8 @@
+import { html } from "../../utils/html-template.ts";
+
 export class BaseLayout {
     static render(content: string): string {
-        return `<!DOCTYPE html>
+        return html`<!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">

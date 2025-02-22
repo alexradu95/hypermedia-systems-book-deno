@@ -1,5 +1,5 @@
 import { Contact } from "../../models/contact.ts";
-import { HtmlUtils } from "../utils/html-utils.ts";
+import { html } from "../../utils/html-template.ts";
 
 export class ContactsTable {
     static render(contacts: Contact[]): string {
@@ -7,7 +7,7 @@ export class ContactsTable {
             return '<p>No contacts found.</p>';
         }
 
-        return `<table role="grid">
+        return html`<table role="grid">
             <thead>
                 <tr>
                     <th>First Name</th>
@@ -25,11 +25,11 @@ export class ContactsTable {
     }
 
     private static renderContactRow(contact: Contact): string {
-        return `<tr>
-            <td>${HtmlUtils.escapeHtml(contact.firstName)}</td>
-            <td>${HtmlUtils.escapeHtml(contact.lastName)}</td>
-            <td>${HtmlUtils.escapeHtml(contact.email)}</td>
-            <td>${HtmlUtils.escapeHtml(contact.phone)}</td>
+        return html`<tr>
+            <td>${contact.firstName}</td>
+            <td>${contact.lastName}</td>
+            <td>${contact.email}</td>
+            <td>${contact.phone}</td>
             <td><a href="/contacts/${contact.id}/edit" role="button">Edit</a></td>
             <td><a href="/contacts/${contact.id}" role="button">View</a></td>
         </tr>`;

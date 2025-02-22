@@ -1,8 +1,9 @@
 import { Contact } from "../../models/contact.ts";
+import { html } from "../../utils/html-template.ts";
 
 export class ContactForm {
     static render(contact?: Partial<Contact>): string {
-        return `
+        return html`
             <div class="grid">
                 <h2>Add New Contact</h2>
             </div>
