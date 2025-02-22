@@ -27,7 +27,7 @@ export class ContactHandlers {
     };
 
     // 📝 Show new contact form
-    newContactForm = (): Response => {
+    newContactForm = (_req: Request): Response => {
         const content = ContactForm.render();
         return new Response(BaseLayout.render(content), {
             headers: { "Content-Type": "text/html; charset=utf-8" }
@@ -50,7 +50,7 @@ export class ContactHandlers {
         return Response.redirect(redirectUrl.toString(), 302);
     };
 
-    // 👀 View single contact
+    // 👀 View contact details
     viewContact = (_req: Request, params: Record<string, string>): Response => {
         const contactId = parseInt(params.id);
         const contact = this.contactService.getContact(contactId);
@@ -65,7 +65,7 @@ export class ContactHandlers {
         });
     };
 
-    // ✏️ Show edit contact form
+    // ✏️ Edit contact form
     editContactForm = (_req: Request, params: Record<string, string>): Response => {
         const contactId = parseInt(params.id);
         const contact = this.contactService.getContact(contactId);
@@ -80,7 +80,7 @@ export class ContactHandlers {
         });
     };
 
-    // 💾 Update existing contact
+    // 💾 Update contact
     updateContact = async (req: Request, params: Record<string, string>): Promise<Response> => {
         const contactId = parseInt(params.id);
         const contact = this.contactService.getContact(contactId);
