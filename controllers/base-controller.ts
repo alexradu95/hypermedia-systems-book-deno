@@ -6,6 +6,10 @@ export abstract class BaseController {
 
     constructor(router: Router) {
         this.router = router;
+    }
+
+    // 🚀 Initialize the controller
+    public init(): void {
         this.setupRoutes();
     }
 

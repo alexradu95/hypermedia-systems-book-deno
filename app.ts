@@ -3,7 +3,8 @@ import { ContactsController } from "./controllers/contacts-controller.ts";
 
 // Create router and controllers
 const router = new Router();
-new ContactsController(router);
+const contactsController = new ContactsController(router);
+contactsController.init();
 
 // Start server
 Deno.serve({ port: 3000 }, async (req) => {

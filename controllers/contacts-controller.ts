@@ -10,16 +10,11 @@ export class ContactsController extends BaseController {
     private contactHandlers: ContactHandlers;
 
     constructor(router: Router) {
-        // Initialize services and handlers before calling super
-        const contactService = new ContactService();
-        const contactHandlers = new ContactHandlers(contactService);
-        
-        // Call super after initialization
         super(router);
         
-        // Assign to instance properties
-        this.contactService = contactService;
-        this.contactHandlers = contactHandlers;
+        // Initialize services and handlers
+        this.contactService = new ContactService();
+        this.contactHandlers = new ContactHandlers(this.contactService);
     }
 
     // 🗺️ Setup all contact-related routes
