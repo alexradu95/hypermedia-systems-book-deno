@@ -1,5 +1,5 @@
 import { Contact } from "../../models/contact.ts";
-import { html } from "../../utils/html-template.ts";
+import { HtmlTemplate } from "../../framework/template/html.ts";
 
 export class ContactsTable {
     static render(contacts: Contact[]): string {
@@ -7,7 +7,7 @@ export class ContactsTable {
             return '<p>No contacts found.</p>';
         }
 
-        return html`<table role="grid">
+        const template = new HtmlTemplate(`<table role="grid">
             <thead>
                 <tr>
                     <th>First Name</th>
@@ -19,19 +19,25 @@ export class ContactsTable {
                 </tr>
             </thead>
             <tbody>
-                ${contacts.map(contact => this.renderContactRow(contact)).join('')}
+                {{rows}}
             </tbody>
-        </table>`;
+        </table>`);
+
+        return template.render({
+            rows: contacts.map(contact => this.renderContactRow(contact)).join('')
+        });
     }
 
     private static renderContactRow(contact: Contact): string {
-        return html`<tr>
-            <td>${contact.firstName}</td>
-            <td>${contact.lastName}</td>
-            <td>${contact.email}</td>
-            <td>${contact.phone}</td>
-            <td><a href="/contacts/${contact.id}/edit" role="button">Edit</a></td>
-            <td><a href="/contacts/${contact.id}" role="button">View</a></td>
-        </tr>`;
+        const template = new HtmlTemplate(`<tr>
+            <td>{{firstName}}</td>
+            <td>{{lastName}}</td>
+            <td>{{email}}</td>
+            <td>{{phone}}</td>
+            <td><a href="/contacts/{{id}}/edit" role="button">Edit</a></td>
+            <td><a href="/contacts/{{id}}" role="button">View</a></td>
+        </tr>`);
+
+        return template.render(contact);
     }
 }

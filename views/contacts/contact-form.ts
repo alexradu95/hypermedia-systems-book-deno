@@ -1,13 +1,13 @@
 import { Contact } from "../../models/contact.ts";
-import { html } from "../../utils/html-template.ts";
+import { HtmlTemplate } from "../../framework/template/html.ts";
 
 export class ContactForm {
     static render(contact?: Partial<Contact>): string {
-        return html`
+        const template = new HtmlTemplate(`
             <div class="grid">
-                <h2>Add New Contact</h2>
+                <h2>{{title}}</h2>
             </div>
-            <form method="POST" action="/contacts/new">
+            <form method="POST" action="{{action}}">
                 <div class="grid">
                     <label for="firstName">
                         First Name
@@ -15,7 +15,7 @@ export class ContactForm {
                             type="text" 
                             id="firstName" 
                             name="firstName" 
-                            value="${contact?.firstName || ''}"
+                            value="{{firstName}}"
                             required
                             placeholder="Enter first name">
                     </label>
@@ -25,7 +25,7 @@ export class ContactForm {
                             type="text" 
                             id="lastName" 
                             name="lastName" 
-                            value="${contact?.lastName || ''}"
+                            value="{{lastName}}"
                             required
                             placeholder="Enter last name">
                     </label>
@@ -36,7 +36,7 @@ export class ContactForm {
                         type="email" 
                         id="email" 
                         name="email" 
-                        value="${contact?.email || ''}"
+                        value="{{email}}"
                         required
                         placeholder="Enter email address">
                 </label>
@@ -46,14 +46,24 @@ export class ContactForm {
                         type="tel" 
                         id="phone" 
                         name="phone" 
-                        value="${contact?.phone || ''}"
+                        value="{{phone}}"
                         required
                         placeholder="Enter phone number">
                 </label>
                 <div class="grid">
-                    <button type="submit">Save Contact</button>
+                    <button type="submit">{{submitText}}</button>
                     <a href="/contacts" role="button" class="secondary">Cancel</a>
                 </div>
-            </form>`;
+            </form>`);
+
+        return template.render({
+            title: contact?.id ? 'Edit Contact' : 'Add New Contact',
+            action: contact?.id ? `/contacts/${contact.id}/edit` : '/contacts/new',
+            firstName: contact?.firstName ?? '',
+            lastName: contact?.lastName ?? '',
+            email: contact?.email ?? '',
+            phone: contact?.phone ?? '',
+            submitText: contact?.id ? 'Update Contact' : 'Create Contact'
+        });
     }
 }

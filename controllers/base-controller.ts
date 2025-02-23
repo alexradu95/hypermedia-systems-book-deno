@@ -1,18 +1,24 @@
-import { Router } from "../infrastructure/router.ts";
+import { Router } from "../framework/http/router.ts";
 
 // 🎮 Base Controller - The template for all your feature controllers
 export abstract class BaseController {
-    protected router: Router;
+    // Use private field with # for better encapsulation
+    #router: Router;
 
     constructor(router: Router) {
-        this.router = router;
+        this.#router = router;
     }
 
     // 🚀 Initialize the controller
-    public init(): void {
+    init(): void {
         this.setupRoutes();
     }
 
     // 🎯 Each feature controller must implement this
     protected abstract setupRoutes(): void;
+
+    // 🛡️ Protected getter for the router
+    protected get router(): Router {
+        return this.#router;
+    }
 }

@@ -1,22 +1,23 @@
-import { Router } from "../../infrastructure/router.ts";
+import { Router } from "../../framework/http/router.ts";
 import { ContactHandlers } from "./handlers.ts";
 
 // 🗺️ Configure all contact-related routes
 export function setupContactRoutes(router: Router, handlers: ContactHandlers): void {
-    // 🏠 Root redirect
-    router.get("/", handlers.handleRoot);
+    // Group routes by their purpose for better organization
+    
+    // 🏠 Root and listing
+    router
+        .get("/", handlers.handleRoot)
+        .get("/contacts", handlers.listContacts);
 
-    // 📋 List contacts
-    router.get("/contacts", handlers.listContacts);
+    // ✨ Contact creation
+    router
+        .get("/contacts/new", handlers.newContactForm)
+        .post("/contacts/new", handlers.createContact);
 
-    // ✨ New contact form & creation
-    router.get("/contacts/new", handlers.newContactForm);
-    router.post("/contacts/new", handlers.createContact);
-
-    // 👀 View contact details
-    router.get("/contacts/:id", handlers.viewContact);
-
-    // ✏️ Edit contact form & update
-    router.get("/contacts/:id/edit", handlers.editContactForm);
-    router.post("/contacts/:id/edit", handlers.updateContact);
+    // 👀 Contact viewing and editing
+    router
+        .get("/contacts/:id", handlers.viewContact)
+        .get("/contacts/:id/edit", handlers.editContactForm)
+        .post("/contacts/:id/edit", handlers.updateContact);
 }

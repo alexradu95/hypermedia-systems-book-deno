@@ -1,8 +1,8 @@
-import { html } from "../../utils/html-template.ts";
+import { HtmlTemplate } from "../../framework/template/html.ts";
 
 export class BaseLayout {
     static render(content: string): string {
-        return html`<!DOCTYPE html>
+        const template = new HtmlTemplate(`<!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
@@ -37,7 +37,7 @@ export class BaseLayout {
             </header>
 
             <main class="container">
-                ${content}
+                {{content}}
             </main>
 
             <footer>
@@ -46,6 +46,8 @@ export class BaseLayout {
                 </div>
             </footer>
         </body>
-        </html>`;
+        </html>`);
+
+        return template.render({ content });
     }
 }

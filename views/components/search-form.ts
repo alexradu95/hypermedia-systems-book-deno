@@ -1,17 +1,19 @@
-import { html } from "../../utils/html-template.ts";
+import { HtmlTemplate } from "../../framework/template/html.ts";
 
 export class SearchForm {
     static render(query: string): string {
-        return html`<form method="GET" action="/contacts">
+        const template = new HtmlTemplate(`<form method="GET" action="/contacts">
             <div class="grid">
                 <input 
                     type="search" 
                     name="q" 
                     placeholder="Search contacts..." 
-                    value="${query}"
+                    value="{{query}}"
                     aria-label="Search">
                 <button type="submit">Search</button>
             </div>
-        </form>`;
+        </form>`);
+
+        return template.render({ query });
     }
 }
