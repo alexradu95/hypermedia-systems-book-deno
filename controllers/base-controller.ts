@@ -1,4 +1,4 @@
-import { Router } from "../router.ts";
+import { Router } from "../infrastructure/router.ts";
 
 // 🎮 Base Controller - The template for all your feature controllers
 export abstract class BaseController {

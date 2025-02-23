@@ -1,4 +1,4 @@
-import { Router } from "../../router.ts";
+import { Router } from "../../infrastructure/router.ts";
 import { ContactHandlers } from "./handlers.ts";
 
 // 🗺️ Configure all contact-related routes

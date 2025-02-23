@@ -1,8 +1,8 @@
-import { Router } from "../router.ts";
-import { ContactService } from "../services/contact-service.ts";
-import { BaseController } from "./base-controller.ts";
-import { ContactHandlers } from "./contacts/handlers.ts";
-import { setupContactRoutes } from "./contacts/routes.ts";
+import { Router } from "../../infrastructure/router.ts";
+import { ContactService } from "../../services/contact-service.ts";
+import { BaseController } from "../base-controller.ts";
+import { ContactHandlers } from "./handlers.ts";
+import { setupContactRoutes } from "./routes.ts";
 
 // 👥 Contacts Controller - Handles all contact-related routes
 export class ContactsController extends BaseController {

@@ -1,5 +1,5 @@
-import { Router } from "./router.ts";
-import { ContactsController } from "./controllers/contacts-controller.ts";
+import { Router } from "./infrastructure/router.ts";
+import { ContactsController } from "./controllers/contacts/controller.ts";
 
 // Create router and controllers
 const router = new Router();
